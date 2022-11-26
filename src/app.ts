@@ -1,4 +1,5 @@
 import { createServer } from "./utils/createServer";
+import { logger } from "./utils/logger";
 
 async function startServer() {
   const server = await createServer();
@@ -7,7 +8,7 @@ async function startServer() {
     host: "0.0.0.0",
   });
 
-  console.log("app started");
+  logger.info("app started");
 }
 
 startServer();
