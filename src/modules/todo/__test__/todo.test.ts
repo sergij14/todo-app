@@ -68,53 +68,81 @@ describe('GET "/api/v1/todos" route', () => {
 });
 
 describe('GET "/api/v1/todos/:id" route', () => {
-    it("should call the getTodo service", async () => {
-      const todo = getMockTodo();
-  
-      const getTodoSpy = vi.spyOn(TodoService, "getTodo");
-  
-      expect(getTodoSpy.getMockName()).toEqual("getTodo");
-  
-      getTodoSpy.mockResolvedValue(todo);
-  
-      const server = await createServer();
-  
-      await server.ready();
-  
-      const response = await server.inject({
-        method: "GET",
-        url: "/api/v1/todos/" + todo._id,
-      });
-  
-      expect(response.json()).toEqual(todo);
-  
-      expect(getTodoSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-  
+  it("should call the getTodo service", async () => {
+    const todo = getMockTodo();
 
-  describe('DELETE "/api/v1/todos/:id" route', () => {
-    it("should call the deleteTodo service", async () => {
-      const todo = getMockTodo();
-  
-      const deleteTodoSpy = vi.spyOn(TodoService, "deleteTodo");
-  
-      expect(deleteTodoSpy.getMockName()).toEqual("deleteTodo");
-  
-      deleteTodoSpy.mockResolvedValue(null);
-  
-      const server = await createServer();
-  
-      await server.ready();
-  
-      const response = await server.inject({
-        method: "DELETE",
-        url: "/api/v1/todos/" + todo._id,
-      });
-  
-      expect(response.json()).toEqual({});
-  
-      expect(deleteTodoSpy).toHaveBeenCalledTimes(1);
+    const getTodoSpy = vi.spyOn(TodoService, "getTodo");
+
+    expect(getTodoSpy.getMockName()).toEqual("getTodo");
+
+    getTodoSpy.mockResolvedValue(todo);
+
+    const server = await createServer();
+
+    await server.ready();
+
+    const response = await server.inject({
+      method: "GET",
+      url: "/api/v1/todos/" + todo._id,
     });
+
+    expect(response.json()).toEqual(todo);
+
+    expect(getTodoSpy).toHaveBeenCalledTimes(1);
   });
-  
+});
+
+describe('DELETE "/api/v1/todos/:id" route', () => {
+  it("should call the deleteTodo service", async () => {
+    const todo = getMockTodo();
+
+    const deleteTodoSpy = vi.spyOn(TodoService, "deleteTodo");
+
+    expect(deleteTodoSpy.getMockName()).toEqual("deleteTodo");
+
+    deleteTodoSpy.mockResolvedValue(null);
+
+    const server = await createServer();
+
+    await server.ready();
+
+    const response = await server.inject({
+      method: "DELETE",
+      url: "/api/v1/todos/" + todo._id,
+    });
+
+    expect(response.json()).toEqual({});
+
+    expect(deleteTodoSpy).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('PATCH "/api/v1/todos/:id" route', () => {
+  it("should call the updateTodo service", async () => {
+    const todo = getMockTodo();
+
+    const updateTodoSpy = vi.spyOn(TodoService, "updateTodo");
+
+    expect(updateTodoSpy.getMockName()).toEqual("updateTodo");
+
+    updateTodoSpy.mockResolvedValue(todo);
+
+    const server = await createServer();
+
+    await server.ready();
+
+    const payload = {
+      title: "A test todo",
+    };
+
+    const response = await server.inject({
+      method: "PATCH",
+      url: "/api/v1/todos/" + todo._id,
+      payload,
+    });
+
+    expect(response.json()).toEqual(todo);
+
+    expect(updateTodoSpy).toHaveBeenCalledTimes(1);
+  });
+});
