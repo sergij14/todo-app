@@ -15,9 +15,7 @@ export const createTodoSchema = {
   tags: ["todo"],
   description: "Creates a todo resource",
   body: Type.Object({
-    title: Type.String({
-      default: "A default title",
-    }),
+    title: Type.String(),
   }),
   response: {
     201: todo,
