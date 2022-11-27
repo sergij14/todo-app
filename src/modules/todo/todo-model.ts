@@ -17,7 +17,7 @@ export class Todo {
     type: Boolean,
     default: false,
   })
-  checked: boolean;
+  complete: boolean;
 }
 
 export const TodoModel = getModelForClass(Todo, {
