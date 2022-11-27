@@ -1,4 +1,4 @@
-import { CreateTodoBody, TodoParams } from "./todo-schema";
+import { CreateTodoBody, TodoParams, UpdateTodoBody } from "./todo-schema";
 import { nanoid } from "nanoid";
 import { Todo, TodoModel } from "./todo-model";
 
@@ -19,4 +19,15 @@ export async function getTodo(params: TodoParams): Promise<Todo | null> {
 
 export async function deleteTodo(params: TodoParams): Promise<null> {
   return TodoModel.findOneAndDelete({ _id: params.id });
+}
+
+export async function updateTodo(
+  params: TodoParams,
+  input: UpdateTodoBody
+): Promise<Todo | null> {
+  return TodoModel.findOneAndUpdate(
+    { _id: params.id },
+    { ...input },
+    { new: true }
+  );
 }

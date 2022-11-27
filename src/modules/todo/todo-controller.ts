@@ -1,7 +1,13 @@
 import { logger } from "./../../utils/logger";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createTodo, deleteTodo, getAllTodos, getTodo } from "./todo-service";
-import { CreateTodoBody, TodoParams } from "./todo-schema";
+import {
+  createTodo,
+  deleteTodo,
+  getAllTodos,
+  getTodo,
+  updateTodo,
+} from "./todo-service";
+import { CreateTodoBody, TodoParams, UpdateTodoBody } from "./todo-schema";
 
 export async function createTodoHandler(
   req: FastifyRequest<{ Body: CreateTodoBody }>,
@@ -54,5 +60,19 @@ export async function deleteTodoHandler(
   } catch (err) {
     logger.error(err, "deleteTodoHandler: Error getting todo");
     return reply.code(400).send({ message: "Error getting todo" });
+  }
+}
+
+export async function updateTodoHandler(
+  req: FastifyRequest<{ Body: UpdateTodoBody; Params: TodoParams }>,
+  reply: FastifyReply
+) {
+  try {
+    const { id } = req.params;
+    const todo = await updateTodo({ id }, { ...req.body });
+    return reply.code(200).send(todo);
+  } catch (err) {
+    logger.error(err, "updateTodoHandler: Error updating todo");
+    return reply.code(400).send({ message: "Error updating todo" });
   }
 }
