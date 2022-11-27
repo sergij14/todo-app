@@ -1,7 +1,7 @@
 import { logger } from "./../../utils/logger";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createTodo, getAllTodos } from "./todo-service";
-import { CreateTodoBody } from "./todo-schema";
+import { createTodo, getAllTodos, getTodo } from "./todo-service";
+import { CreateTodoBody, GetTodoParams } from "./todo-schema";
 
 export async function createTodoHandler(
   req: FastifyRequest<{ Body: CreateTodoBody }>,
@@ -17,15 +17,28 @@ export async function createTodoHandler(
 }
 
 export async function getAllTodosHandler(
-    req: FastifyRequest,
-    reply: FastifyReply
-  ) {
-    try {
-      const todos = await getAllTodos();
-      return reply.code(201).send(todos);
-    } catch (err) {
-      logger.error(err, "getAllTodosHandler: Error getting todos");
-      return reply.code(400).send({ message: "Error getting todos" });
-    }
+  req: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const todos = await getAllTodos();
+    return reply.code(201).send(todos);
+  } catch (err) {
+    logger.error(err, "getAllTodosHandler: Error getting todos");
+    return reply.code(400).send({ message: "Error getting todos" });
   }
-  
+}
+
+export async function getTodoHandler(
+  req: FastifyRequest<{ Params: GetTodoParams }>,
+  reply: FastifyReply
+) {
+  try {
+    const { id } = req.params;
+    const todo = await getTodo({ id });
+    return reply.code(201).send(todo);
+  } catch (err) {
+    logger.error(err, "getTodoHandler: Error getting todo");
+    return reply.code(400).send({ message: "Error getting todo" });
+  }
+}

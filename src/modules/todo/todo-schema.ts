@@ -22,12 +22,24 @@ export const createTodoSchema = {
   },
 };
 
+export const getTodoSchema = {
+  tags: ["todo"],
+  description: "Returns todo item",
+  params: Type.Object({
+    id: Type.String(),
+  }),
+  response: {
+    201: todo,
+  },
+};
+
 export const getAllTodosSchema = {
   tags: ["todo"],
-  description: "Gets todos list",
+  description: "Returns all todos list",
   response: {
     201: todos,
   },
 };
 
 export type CreateTodoBody = Static<typeof createTodoSchema.body>;
+export type GetTodoParams = Static<typeof getTodoSchema.params>;
