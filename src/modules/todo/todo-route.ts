@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
-import { createTodoHandler } from "./todo-controller";
+import { createTodoHandler, getAllTodosHandler } from "./todo-controller";
 import { createTodoSchema } from "./todo-schema";
 
 export function todoRoute(
@@ -8,6 +8,7 @@ export function todoRoute(
   done: () => void
 ) {
   app.post("/", { schema: createTodoSchema }, createTodoHandler);
+  app.get("/", {}, getAllTodosHandler);
 
   done();
 }
