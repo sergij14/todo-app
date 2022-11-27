@@ -3,16 +3,18 @@ import { describe, it, vi, expect } from "vitest";
 import { createServer } from "../../../utils/createServer";
 import * as TodoService from "../todo-service";
 
+const getMockTodo = () => ({
+  _id: "mock id",
+  title: "mock title",
+  shortId: nanoid(),
+  complete: false,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+});
+
 describe('POST "/api/v1/todos" route', () => {
   it("should call the createTodo service", async () => {
-    const todo = {
-      _id: "mock id",
-      title: "mock title",
-      shortId: nanoid(),
-      complete: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    const todo = getMockTodo();
 
     const createTodoSpy = vi.spyOn(TodoService, "createTodo");
 
@@ -42,16 +44,7 @@ describe('POST "/api/v1/todos" route', () => {
 
 describe('GET "/api/v1/todos" route', () => {
   it("should call the getAllTodos service", async () => {
-    const todos = [
-      {
-        _id: "mock id",
-        title: "mock title",
-        shortId: nanoid(),
-        complete: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-    ];
+    const todos = [getMockTodo()];
 
     const getAllTodosSpy = vi.spyOn(TodoService, "getAllTodos");
 
