@@ -71,11 +71,11 @@ describe('GET "/api/v1/todos/:id" route', () => {
     it("should call the getTodo service", async () => {
       const todo = getMockTodo();
   
-      const getTodosSpy = vi.spyOn(TodoService, "getTodo");
+      const getTodoSpy = vi.spyOn(TodoService, "getTodo");
   
-      expect(getTodosSpy.getMockName()).toEqual("getTodo");
+      expect(getTodoSpy.getMockName()).toEqual("getTodo");
   
-      getTodosSpy.mockResolvedValue(todo);
+      getTodoSpy.mockResolvedValue(todo);
   
       const server = await createServer();
   
@@ -88,7 +88,33 @@ describe('GET "/api/v1/todos/:id" route', () => {
   
       expect(response.json()).toEqual(todo);
   
-      expect(getTodosSpy).toHaveBeenCalledTimes(1);
+      expect(getTodoSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+  
+
+  describe('DELETE "/api/v1/todos/:id" route', () => {
+    it("should call the deleteTodo service", async () => {
+      const todo = getMockTodo();
+  
+      const deleteTodoSpy = vi.spyOn(TodoService, "deleteTodo");
+  
+      expect(deleteTodoSpy.getMockName()).toEqual("deleteTodo");
+  
+      deleteTodoSpy.mockResolvedValue(null);
+  
+      const server = await createServer();
+  
+      await server.ready();
+  
+      const response = await server.inject({
+        method: "DELETE",
+        url: "/api/v1/todos/" + todo._id,
+      });
+  
+      expect(response.json()).toEqual({});
+  
+      expect(deleteTodoSpy).toHaveBeenCalledTimes(1);
     });
   });
   
