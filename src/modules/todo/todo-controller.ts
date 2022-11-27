@@ -1,7 +1,7 @@
 import { logger } from "./../../utils/logger";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createTodo, getAllTodos, getTodo } from "./todo-service";
-import { CreateTodoBody, GetTodoParams } from "./todo-schema";
+import { createTodo, deleteTodo, getAllTodos, getTodo } from "./todo-service";
+import { CreateTodoBody, TodoParams } from "./todo-schema";
 
 export async function createTodoHandler(
   req: FastifyRequest<{ Body: CreateTodoBody }>,
@@ -30,7 +30,7 @@ export async function getAllTodosHandler(
 }
 
 export async function getTodoHandler(
-  req: FastifyRequest<{ Params: GetTodoParams }>,
+  req: FastifyRequest<{ Params: TodoParams }>,
   reply: FastifyReply
 ) {
   try {
@@ -42,3 +42,18 @@ export async function getTodoHandler(
     return reply.code(400).send({ message: "Error getting todo" });
   }
 }
+
+export async function deleteTodoHandler(
+    req: FastifyRequest<{ Params: TodoParams }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { id } = req.params;
+      const todo = await deleteTodo({ id });
+      return reply.code(204).send(null);
+    } catch (err) {
+      logger.error(err, "deleteTodoHandler: Error getting todo");
+      return reply.code(400).send({ message: "Error getting todo" });
+    }
+  }
+  

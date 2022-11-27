@@ -11,6 +11,14 @@ const todo = Type.Object({
 
 const todos = Type.Array(todo);
 
+const todoSchema = {
+  tags: ["todo"],
+  description: "Returns todo item",
+  params: Type.Object({
+    id: Type.String(),
+  }),
+};
+
 export const createTodoSchema = {
   tags: ["todo"],
   description: "Creates a todo resource",
@@ -23,13 +31,18 @@ export const createTodoSchema = {
 };
 
 export const getTodoSchema = {
-  tags: ["todo"],
+  ...todoSchema,
   description: "Returns todo item",
-  params: Type.Object({
-    id: Type.String(),
-  }),
   response: {
     201: todo,
+  },
+};
+
+export const deleteTodoSchema = {
+  ...todoSchema,
+  description: "Deletes todo item",
+  response: {
+    204: {},
   },
 };
 
@@ -42,4 +55,4 @@ export const getAllTodosSchema = {
 };
 
 export type CreateTodoBody = Static<typeof createTodoSchema.body>;
-export type GetTodoParams = Static<typeof getTodoSchema.params>;
+export type TodoParams = Static<typeof todoSchema.params>;
