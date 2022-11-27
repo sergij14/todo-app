@@ -13,10 +13,10 @@ export async function getAllTodos(): Promise<Todo[]> {
   return TodoModel.find({});
 }
 
-export async function getTodo(params: TodoParams) {
+export async function getTodo(params: TodoParams): Promise<Todo | null> {
   return TodoModel.findOne({ _id: params.id });
 }
 
-export async function deleteTodo(params: TodoParams) {
+export async function deleteTodo(params: TodoParams): Promise<null> {
   return TodoModel.findOneAndDelete({ _id: params.id });
 }

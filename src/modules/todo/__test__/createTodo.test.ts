@@ -66,3 +66,29 @@ describe('GET "/api/v1/todos" route', () => {
     expect(getAllTodosSpy).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('GET "/api/v1/todos/:id" route', () => {
+    it("should call the getTodo service", async () => {
+      const todo = getMockTodo();
+  
+      const getTodosSpy = vi.spyOn(TodoService, "getTodo");
+  
+      expect(getTodosSpy.getMockName()).toEqual("getTodo");
+  
+      getTodosSpy.mockResolvedValue(todo);
+  
+      const server = await createServer();
+  
+      await server.ready();
+  
+      const response = await server.inject({
+        method: "GET",
+        url: "/api/v1/todos/" + todo._id,
+      });
+  
+      expect(response.json()).toEqual(todo);
+  
+      expect(getTodosSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+  
