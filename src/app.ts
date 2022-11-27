@@ -1,4 +1,3 @@
-import { FastifyInstance } from "fastify";
 import { signals } from "./constants";
 import { config } from "./utils/config";
 import { connectDB, disconnectDB } from "./utils/connectDB";
