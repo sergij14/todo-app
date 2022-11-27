@@ -49,7 +49,7 @@ export const getTodoSchema = {
   ...todoSchemaParams,
   description: "Returns todo item",
   response: {
-    201: todo,
+    200: todo,
   },
 };
 
@@ -66,7 +66,7 @@ export const getAllTodosSchema = {
   tags: ["todo"],
   description: "Returns all todos list",
   response: {
-    201: todos,
+    200: todos,
   },
 };
 
